@@ -30,17 +30,17 @@ PROMPT_SISTEMA_PATH = Path(__file__).parent / "agente" / "prompt_sistema.md"
 AMBIENTE_NAO_INFORMADO = "Não informado"
 AMBIENTES = [AMBIENTE_NAO_INFORMADO, "Aberta", "Por API", "Contratada", "Própria"]
 AMBIENTE_HELP = (
-    "**Aberta** — IA pública usada direto no navegador, conta comum "
+    "**Aberta:** IA pública usada direto no navegador, conta comum "
     "(ChatGPT, Gemini, Claude.ai), sem contrato corporativo. Risco máximo: "
     "o provedor pode reter e treinar com seus dados.\n\n"
-    "**Por API** — um sistema do órgão acessa a IA pelo canal de programação "
+    "**Por API:** um sistema do órgão acessa a IA pelo canal de programação "
     "de um provedor (OpenAI, Anthropic, Google). Há relação contratual e "
     "geralmente opção de não-treinamento, mas os dados ainda transitam para "
     "o provedor.\n\n"
-    "**Contratada** — solução de IA de mercado contratada pelo órgão, com "
+    "**Contratada:** solução de IA de mercado contratada pelo órgão, com "
     "cláusulas específicas (no-training, no-retention, isolamento). O "
     "contrato define as garantias.\n\n"
-    "**Própria** — o modelo roda em infraestrutura do próprio órgão "
+    "**Própria:** o modelo roda em infraestrutura do próprio órgão "
     "(on-premise ou nuvem privada segregada). Maior controle, menor "
     "exposição externa."
 )
@@ -199,10 +199,10 @@ def main() -> None:
 
     st.title("Agente de Governança de IA")
     st.caption(
-        "Mediação de risco para uso responsável de IA no setor público — "
+        "Mediação de risco para uso responsável de IA no setor público. "
         "Portaria MGI 3.485/2026, LGPD, LAI, Framework AIE."
     )
-    st.caption(f"**{VERSION}** — {VERSION_NOTE}")
+    st.caption(f"**{VERSION}** · {VERSION_NOTE}")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
