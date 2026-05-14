@@ -21,8 +21,8 @@ from analytics import registrar_visita
 MODEL = "claude-opus-4-7"
 MAX_TOKENS = 16000
 
-VERSION = "v6"
-VERSION_NOTE = "Output vs outcome, tese declarada e ressalvas ativas"
+VERSION = "v7"
+VERSION_NOTE = "Base teórica e normativa + não automatize a burocracia"
 
 PROMPT_SISTEMA_PATH = Path(__file__).parent.parent / "agente" / "prompt_sistema.md"
 
@@ -258,6 +258,18 @@ def main() -> None:
     if st.session_state.ultima_usage is not None:
         with st.expander("Telemetria · Uso e cache"):
             render_metricas_cache(st.session_state.ultima_usage)
+
+    st.divider()
+    st.caption(
+        "Em conformidade com o princípio de transparência da Portaria MGI "
+        "3.485/2026, que exige identificar o uso de IA: esta ferramenta é "
+        "apoiada por IA. Usa a API da Anthropic (modelo Claude); pelos termos "
+        "comerciais da API, o conteúdo enviado não é usado para treinar "
+        "modelos; os dados transitam para a Anthropic (empresa dos EUA). Na "
+        'taxonomia do próprio agente, é um uso "Por API": use com informação '
+        "pública ou de baixa sensibilidade, não insira dados pessoais "
+        "sensíveis ou sigilosos."
+    )
 
 
 main()
