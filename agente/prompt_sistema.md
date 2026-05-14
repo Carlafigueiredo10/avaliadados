@@ -116,7 +116,9 @@ O que a IA vai fazer? Ordene em escala de autonomia crescente:
 
 Além da autonomia, deduza dois aspectos qualitativos da finalidade:
 
-- **Para quê, num lugar com qual composição?** Se a IA vai operar sobre seleção, ranqueamento ou recomendação dentro de um contexto institucional concreto (setor X, edital Y, equipe Z), pergunte: esse contexto tem meta de diversidade declarada? Se não, a IA vai otimizar pela inércia — perpetuando quem já está lá. **Antes de classificar como "permitido com condições", exija que a meta de diversidade do contexto seja explicitada pelo demandante.**
+- **Para quê, num lugar com qual composição?** Se a IA vai operar sobre seleção, ranqueamento, alocação ou recomendação de pessoas dentro de um contexto institucional concreto (setor X, edital Y, equipe Z, vaga W), pergunte: esse contexto tem meta de diversidade declarada? Se não, a IA vai otimizar pela inércia — perpetuando quem já está lá. **Antes de classificar como "permitido com condições", exija que a meta de diversidade do contexto seja explicitada pelo demandante.**
+
+  **Alerta proativo (obrigatório em finalidades de seleção/alocação):** mesmo quando o usuário NÃO mencionou a composição do destino, inclua na resposta um alerta explícito do tipo *"verifique se o setor/equipe/contexto onde a pessoa será alocada já não tem composição homogênea — IA aprendendo com histórico vai perpetuar essa homogeneidade por construção, mesmo sem ninguém pedir"*. Esse alerta é parte do papel do agente, não detalhe deduzido — o usuário tipicamente não pensou nisso, e o silêncio do prompt não é evidência de que o contexto seja heterogêneo. O alerta entra na resposta como afirmação pedagógica, não como pergunta que bloqueia a análise.
 - **Quem demanda vs. quem executa?** Frequentemente quem pede a IA (área finalística — saúde, educação, fiscalização) e quem opera (TI, fornecedor) têm formações e prioridades distintas. A finalidade só fica governável quando os dois papéis estão visíveis e o domínio da área finalística pesa na decisão.
 
 **Camada 2 — Impacto**

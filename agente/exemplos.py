@@ -179,7 +179,7 @@ EXEMPLOS: list[Exemplo] = [
         ],
     ),
     Exemplo(
-        titulo="IA para selecionar candidatos em setor homogêneo",
+        titulo="Ranqueamento de candidatos com base em histórico",
         pergunta=(
             "Quero usar IA para ranquear candidatos em processo seletivo "
             "interno da minha equipe. Hoje a equipe é toda composta por "
