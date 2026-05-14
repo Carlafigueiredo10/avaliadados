@@ -4,6 +4,7 @@ avaliadados — app Streamlit multipágina:
 - Consulta de uso de IA:                            agente de chat de mediação de risco
 - Autoavaliação de Impacto Ético da IA (AIE) do MGI: questionário estruturado
 - Base teórica e normativa:                         fundamentação anotada do agente
+- Conheça Lélia:                                    a história de quem inspirou o nome da agente
 - Métricas:                                         telemetria de uso
 
 Este arquivo é só o roteador (entrypoint do Streamlit Cloud). O conteúdo de
@@ -33,6 +34,7 @@ paginas = [
         title="Base teórica e normativa",
         icon="📚",
     ),
+    st.Page("paginas/conheca_lelia.py", title="Conheça Lélia", icon="✊🏾"),
     st.Page("paginas/metricas.py", title="Métricas", icon="📊"),
 ]
 

@@ -21,8 +21,8 @@ from analytics import registrar_visita
 MODEL = "claude-opus-4-7"
 MAX_TOKENS = 16000
 
-VERSION = "v7"
-VERSION_NOTE = "Base teórica e normativa + não automatize a burocracia"
+VERSION = "v8"
+VERSION_NOTE = "A agente se chama Lélia + página Conheça Lélia"
 
 PROMPT_SISTEMA_PATH = Path(__file__).parent.parent / "agente" / "prompt_sistema.md"
 LELIA_AVATAR = str(Path(__file__).parent.parent / "assets" / "lelia.png")
