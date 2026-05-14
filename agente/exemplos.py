@@ -158,6 +158,72 @@ EXEMPLOS: list[Exemplo] = [
             "+ supervisão técnica especializada",
         ],
     ),
+    Exemplo(
+        titulo="Triagem de bolsas com painel só de TI",
+        pergunta=(
+            "Vamos usar IA para triar pedidos de bolsa de estudos em "
+            "programa do órgão. O painel de revisão das decisões da IA "
+            "será composto por três servidores da nossa equipe de TI."
+        ),
+        classificacao_esperada="alto_risco_redesenho",
+        pontos_criticos=[
+            "Decisão de impacto social (acesso a benefício educacional) "
+            "sob revisão monodisciplinar",
+            "Painel só-TI não consegue avaliar adequação social ou "
+            "pedagógica das decisões da IA",
+            "Composição representativa não declarada — nada dito sobre "
+            "gênero, raça, deficiência ou origem social dos revisores",
+            "Caminho: incluir educadores, assistentes sociais e pessoas "
+            "com vivência do perfil do público-alvo no painel; manter "
+            "TI como suporte técnico, não como instância decisória",
+        ],
+    ),
+    Exemplo(
+        titulo="IA para selecionar candidatos em setor homogêneo",
+        pergunta=(
+            "Quero usar IA para ranquear candidatos em processo seletivo "
+            "interno da minha equipe. Hoje a equipe é toda composta por "
+            "engenheiros homens. A IA vai aprender com o histórico de "
+            "contratações para sugerir os melhores."
+        ),
+        classificacao_esperada="alto_risco_redesenho",
+        pontos_criticos=[
+            "Treinar com histórico de contratações = otimizar para "
+            "perpetuação da homogeneidade existente (armadilha da "
+            "otimização-para-fit)",
+            "Meta de diversidade do contexto NÃO foi declarada — sem "
+            "isso, a IA naturaliza o status quo",
+            "Transparência substantiva ausente: não foi dito quais "
+            "variáveis o modelo usa para ranquear",
+            "Caminho: declarar explicitamente meta de diversidade do "
+            "contexto e codificá-la como critério; ou rebaixar a IA para "
+            "organização (não ranqueamento); revisão final por painel "
+            "diverso antes de qualquer corte de candidato",
+        ],
+    ),
+    Exemplo(
+        titulo="IA contratada sem informação sobre dados de treinamento",
+        pergunta=(
+            "Vamos contratar uma solução de IA de mercado para detectar "
+            "indícios de irregularidade em pedidos administrativos. O "
+            "fornecedor não informa com que base de dados o modelo foi "
+            "treinado, alegando segredo comercial."
+        ),
+        classificacao_esperada="nao_recomendado",
+        pontos_criticos=[
+            "Opacidade total da origem dos dados de treinamento = "
+            "impossível avaliar qual viés a IA herdou",
+            "Para decisão com impacto administrativo, transparência "
+            "substantiva é exigência mínima — não basta saber que é IA, "
+            "tem que saber como ela aprendeu",
+            "Segredo comercial não se sobrepõe ao dever de motivação do "
+            "ato administrativo (LAI, CF art. 37)",
+            "Caminho: exigir contratualmente disclosure mínimo "
+            "(categorias de dados, fontes, distribuição demográfica) + "
+            "direito de auditoria pelo órgão + cláusula de retreinamento "
+            "se viés for detectado",
+        ],
+    ),
 ]
 
 
