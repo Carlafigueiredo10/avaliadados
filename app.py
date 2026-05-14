@@ -1,8 +1,8 @@
 """
 Agente de Governança de IA — protótipo Streamlit.
 
-Frontend simples. Backend sofisticado (system prompt em prompt_sistema.md +
-3 motores + 5 camadas + prompt caching da Anthropic + adaptive thinking).
+Tema "Daylight Control Room" (agente/styles.py). Backend: system prompt em
+prompt_sistema.md + 3 motores + 5 camadas + prompt caching + adaptive thinking.
 """
 
 from pathlib import Path
@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 
 from agente.exemplos import EXEMPLOS
 from agente.rastro_decisorio import extrair_rastro_da_resposta
+from agente.styles import STYLES, SEVERITY_LABELS, SEVERITY_CLASS
 
 
 load_dotenv()
@@ -21,10 +22,28 @@ load_dotenv()
 MODEL = "claude-opus-4-7"
 MAX_TOKENS = 16000
 
-VERSION = "v4"
-VERSION_NOTE = "Alocação distributiva + seção de perguntas obrigatória"
+VERSION = "v5"
+VERSION_NOTE = "Daylight control room + seleção prévia de ambiente"
 
 PROMPT_SISTEMA_PATH = Path(__file__).parent / "agente" / "prompt_sistema.md"
+
+AMBIENTE_NAO_INFORMADO = "Não informado"
+AMBIENTES = [AMBIENTE_NAO_INFORMADO, "Aberta", "Por API", "Contratada", "Própria"]
+AMBIENTE_HELP = (
+    "**Aberta** — IA pública usada direto no navegador, conta comum "
+    "(ChatGPT, Gemini, Claude.ai), sem contrato corporativo. Risco máximo: "
+    "o provedor pode reter e treinar com seus dados.\n\n"
+    "**Por API** — um sistema do órgão acessa a IA pelo canal de programação "
+    "de um provedor (OpenAI, Anthropic, Google). Há relação contratual e "
+    "geralmente opção de não-treinamento, mas os dados ainda transitam para "
+    "o provedor.\n\n"
+    "**Contratada** — solução de IA de mercado contratada pelo órgão, com "
+    "cláusulas específicas (no-training, no-retention, isolamento). O "
+    "contrato define as garantias.\n\n"
+    "**Própria** — o modelo roda em infraestrutura do próprio órgão "
+    "(on-premise ou nuvem privada segregada). Maior controle, menor "
+    "exposição externa."
+)
 
 
 @st.cache_resource
@@ -45,25 +64,56 @@ def get_prompt_sistema() -> str:
 
 
 def render_sidebar() -> str | None:
-    """Sidebar com casos de teste prontos. Retorna a pergunta escolhida, se houver."""
-    st.sidebar.title("Casos de teste")
-    st.sidebar.caption(
-        "Casos canônicos para experimentar. Clique para preencher a pergunta."
+    """Painel operacional: ambiente tecnológico + casos de teste."""
+    st.sidebar.markdown(
+        '<div class="terminal-header">'
+        '<div class="th-title">GOVERNANÇA DE IA</div>'
+        f'<div class="th-sub">TERMINAL OPERACIONAL · {VERSION.upper()}</div>'
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    st.sidebar.selectbox(
+        "Ambiente tecnológico",
+        AMBIENTES,
+        key="ambiente",
+        help=AMBIENTE_HELP,
+    )
+
+    st.sidebar.markdown(
+        '<div class="section-label">Casos de teste</div>'
+        '<div class="section-caption">Casos canônicos para experimentar. '
+        "Clique para preencher a pergunta.</div>",
+        unsafe_allow_html=True,
     )
 
     pergunta_escolhida = None
-    for exemplo in EXEMPLOS:
-        if st.sidebar.button(exemplo.titulo, use_container_width=True):
+    for i, exemplo in enumerate(EXEMPLOS, start=1):
+        crit = exemplo.classificacao_esperada
+        st.sidebar.markdown(
+            '<div class="case-label">'
+            f'<span class="case-id">Caso {i:02d}</span>'
+            f'<span class="case-crit {SEVERITY_CLASS[crit]}">'
+            f'<span class="crit-dot"></span>{SEVERITY_LABELS[crit]}</span>'
+            "</div>",
+            unsafe_allow_html=True,
+        )
+        if st.sidebar.button(
+            exemplo.titulo, key=f"case_{i}", use_container_width=True
+        ):
             pergunta_escolhida = exemplo.pergunta
 
-    st.sidebar.divider()
+    st.sidebar.markdown("<hr/>", unsafe_allow_html=True)
     st.sidebar.markdown(
-        "**Sobre**\n\n"
-        "Agente de mediação de risco para uso de IA no setor público. "
-        "Backend baseado em Portaria MGI 3.485/2026, LGPD, LAI e Framework AIE."
+        '<div class="sidebar-meta">'
+        '<div class="meta-row"><span>MODELO</span><span>Claude Opus 4.7</span></div>'
+        '<div class="meta-row"><span>PROTOCOLO</span><span>MGI 3.485/2026</span></div>'
+        '<div class="meta-row"><span>BASE</span><span>LGPD · LAI · AIE</span></div>'
+        "</div>",
+        unsafe_allow_html=True,
     )
 
-    if st.sidebar.button("🗑️ Limpar conversa", use_container_width=True):
+    if st.sidebar.button("Limpar conversa", key="clear", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
@@ -87,10 +137,13 @@ def render_metricas_cache(usage) -> None:
     cols[3].metric("Tokens saída", usage.output_tokens)
 
 
-def chamar_agente(client: anthropic.Anthropic, messages: list[dict]) -> tuple[str, object]:
+def chamar_agente(
+    client: anthropic.Anthropic, messages: list[dict], ambiente: str
+) -> tuple[str, object]:
     """
     Chama Claude com:
     - prompt caching no system prompt (cache_control ephemeral)
+    - bloco dinâmico com o ambiente tecnológico, quando informado na seleção prévia
     - adaptive thinking
     - effort high (intelligence-sensitive)
     - streaming (max_tokens alto)
@@ -102,6 +155,18 @@ def chamar_agente(client: anthropic.Anthropic, messages: list[dict]) -> tuple[st
             "cache_control": {"type": "ephemeral"},
         }
     ]
+    if ambiente and ambiente != AMBIENTE_NAO_INFORMADO:
+        system_blocks.append(
+            {
+                "type": "text",
+                "text": (
+                    "CONTEXTO INFORMADO PELO USUÁRIO NA SELEÇÃO PRÉVIA: o "
+                    f"ambiente tecnológico deste caso é '{ambiente}'. Já está "
+                    "definido — incorpore na análise e não pergunte sobre "
+                    "ambiente."
+                ),
+            }
+        )
 
     final_message = None
     text_chunks: list[str] = []
@@ -127,9 +192,10 @@ def chamar_agente(client: anthropic.Anthropic, messages: list[dict]) -> tuple[st
 def main() -> None:
     st.set_page_config(
         page_title="Agente de Governança de IA",
-        page_icon="📄",
+        page_icon="◉",
         layout="wide",
     )
+    st.markdown(STYLES, unsafe_allow_html=True)
 
     st.title("Agente de Governança de IA")
     st.caption(
@@ -144,6 +210,7 @@ def main() -> None:
         st.session_state.ultima_usage = None
 
     pergunta_da_sidebar = render_sidebar()
+    ambiente = st.session_state.get("ambiente", AMBIENTE_NAO_INFORMADO)
 
     # Renderiza histórico
     for msg in st.session_state.messages:
@@ -152,10 +219,10 @@ def main() -> None:
             if msg["role"] == "assistant":
                 rastro = extrair_rastro_da_resposta(msg["content"])
                 if rastro:
-                    with st.expander("📄 Rastro Decisório (anexável ao processo)"):
+                    with st.expander("Extrato de Governança · Rastro Decisório"):
                         st.markdown(rastro)
                         st.download_button(
-                            "Baixar como Markdown",
+                            "Exportar extrato",
                             data=rastro,
                             file_name="rastro_decisorio.md",
                             mime="text/markdown",
@@ -173,15 +240,17 @@ def main() -> None:
 
         with st.chat_message("assistant"):
             client = get_client()
-            resposta, usage = chamar_agente(client, st.session_state.messages)
+            resposta, usage = chamar_agente(
+                client, st.session_state.messages, ambiente
+            )
             st.session_state.ultima_usage = usage
 
             rastro = extrair_rastro_da_resposta(resposta)
             if rastro:
-                with st.expander("📄 Rastro Decisório (anexável ao processo)"):
+                with st.expander("Extrato de Governança · Rastro Decisório"):
                     st.markdown(rastro)
                     st.download_button(
-                        "Baixar como Markdown",
+                        "Exportar extrato",
                         data=rastro,
                         file_name="rastro_decisorio.md",
                         mime="text/markdown",
@@ -191,7 +260,7 @@ def main() -> None:
         st.session_state.messages.append({"role": "assistant", "content": resposta})
 
     if st.session_state.ultima_usage is not None:
-        with st.expander("🔍 Métricas (uso e cache)"):
+        with st.expander("Telemetria · Uso e cache"):
             render_metricas_cache(st.session_state.ultima_usage)
 
 
