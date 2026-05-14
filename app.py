@@ -21,8 +21,8 @@ load_dotenv()
 MODEL = "claude-opus-4-7"
 MAX_TOKENS = 16000
 
-VERSION = "v3"
-VERSION_NOTE = "Perguntas para aprofundar + 4 pilares de diversidade"
+VERSION = "v4"
+VERSION_NOTE = "Alocação distributiva + seção de perguntas obrigatória"
 
 PROMPT_SISTEMA_PATH = Path(__file__).parent / "agente" / "prompt_sistema.md"
 
