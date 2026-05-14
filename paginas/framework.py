@@ -25,6 +25,7 @@ VERSION = "v7"
 VERSION_NOTE = "Base teórica e normativa + não automatize a burocracia"
 
 PROMPT_SISTEMA_PATH = Path(__file__).parent.parent / "agente" / "prompt_sistema.md"
+LELIA_AVATAR = str(Path(__file__).parent.parent / "assets" / "lelia.png")
 
 AMBIENTE_NAO_INFORMADO = "Não informado"
 AMBIENTES = [AMBIENTE_NAO_INFORMADO, "Aberta", "Por API", "Contratada", "Própria"]
@@ -210,7 +211,8 @@ def main() -> None:
 
     # Renderiza histórico
     for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
+        avatar = LELIA_AVATAR if msg["role"] == "assistant" else None
+        with st.chat_message(msg["role"], avatar=avatar):
             st.markdown(msg["content"])
             if msg["role"] == "assistant":
                 rastro = extrair_rastro_da_resposta(msg["content"])
@@ -234,7 +236,7 @@ def main() -> None:
         with st.chat_message("user"):
             st.markdown(pergunta)
 
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=LELIA_AVATAR):
             client = get_client()
             resposta, usage = chamar_agente(
                 client, st.session_state.messages, ambiente
