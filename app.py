@@ -21,6 +21,9 @@ load_dotenv()
 MODEL = "claude-opus-4-7"
 MAX_TOKENS = 16000
 
+VERSION = "v3"
+VERSION_NOTE = "Perguntas para aprofundar + 4 pilares de diversidade"
+
 PROMPT_SISTEMA_PATH = Path(__file__).parent / "agente" / "prompt_sistema.md"
 
 
@@ -133,6 +136,7 @@ def main() -> None:
         "Mediação de risco para uso responsável de IA no setor público — "
         "Portaria MGI 3.485/2026, LGPD, LAI, Framework AIE."
     )
+    st.caption(f"**{VERSION}** — {VERSION_NOTE}")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
