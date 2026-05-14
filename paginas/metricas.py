@@ -15,7 +15,13 @@ import streamlit as st
 from analytics import ler_config
 
 
-ROTULOS_PAGINA = {"framework": "Framework", "avalia_dados": "Avalia Dados"}
+# As CHAVES ("framework", "avalia_dados") são os identificadores gravados no
+# banco — não mexer, sob pena de perder a continuidade dos dados. Só os rótulos
+# de exibição mudam.
+ROTULOS_PAGINA = {
+    "framework": "Consulta de uso de IA",
+    "avalia_dados": "Autoavaliação de Impacto Ético da IA (AIE) do MGI",
+}
 
 
 def exigir_senha() -> None:
