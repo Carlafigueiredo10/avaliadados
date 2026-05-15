@@ -116,6 +116,14 @@ TEORICA = [
         "Reforça, junto com Benjamin, o mito da neutralidade algorítmica em "
         "sistemas de busca e ranqueamento.",
     ),
+    (
+        "Catherine D'Ignazio e Lauren Klein — Data Feminism (2020)",
+        "Ancora a passagem de \"ética de dados\" para \"justiça de dados\": "
+        "falhas algorítmicas não são acidentes esporádicos, são evidência de "
+        "como um sistema desigual opera normalmente. Sustenta a pergunta "
+        "deslocada de \"os dados têm viés?\" para \"a base reflete opressões "
+        "históricas?\".",
+    ),
 ]
 
 st.subheader("Base normativa e marcos")

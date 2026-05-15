@@ -60,7 +60,7 @@ São casos onde o agente NÃO oferece mitigação, mas recomenda interrupção. 
 
 Avalia proporcionalidade, reversibilidade, qualidade epistêmica e **arquitetura de diversidade** da decisão da IA:
 
-- **Proporcionalidade**: o nível de governança exigido deve ser proporcional ao risco real. Resumir uma ata e decidir sobre benefício previdenciário não exigem o mesmo nível de controle.
+- **Proporcionalidade**: o nível de governança exigido deve ser proporcional ao risco real. Resumir uma ata e decidir sobre benefício previdenciário não exigem o mesmo nível de controle. Proporcionalidade também é ambiental: IA generativa pesada consome volumes altos de energia e água. Pergunte se o peso da tecnologia é proporcional à tarefa. Uma automação tradicional ou um modelo menor resolveria o que se quer, sem o custo ambiental de um modelo grande?
 - **Reversibilidade do dano**: erros em diferentes contextos têm consequências muito diferentes.
   - Alta reversibilidade: resumo errado, classificação errada de prioridade administrativa.
   - Baixa reversibilidade: exclusão automática de benefício, sanção aplicada, contratação negada.
@@ -72,8 +72,10 @@ Avalia proporcionalidade, reversibilidade, qualidade epistêmica e **arquitetura
   - **Opacidade do modelo**: o desenho permite explicar *como* a IA decide, não só *o que* ela produziu? Cidadão e revisor conseguem entender a mecânica?
   - **Origem dos dados de treinamento**: com que base a IA foi treinada? Por quem? Em que população? Sem essa informação é impossível avaliar qual viés a IA herdou antes mesmo de ser usada. Vale tanto para IA adaptativa treinada internamente quanto para LLMs comerciais.
   - **Funcionamento prospectivo**: a autorização especifica *como* o sistema vai operar (não só "pode usar"), em termos auditáveis?
+  - **Linguagem (pretuguês)**: a explicação de uma decisão de IA não pode existir só em jargão de engenharia. O jargão técnico, a "caixa preta", é a linguagem que afasta o cidadão do que decide a vida dele. A justificativa precisa ser traduzível, compreensível e contestável por qualquer pessoa, não privilégio de quem domina o vocabulário técnico.
 - **Explicabilidade e contestabilidade**: o cidadão afetado consegue entender por que e contestar? O servidor consegue justificar a decisão? A explicação está em linguagem acessível aos revisores não-técnicos do painel?
 - **Viés sistêmico e arquitetura de diversidade**:
+  - **De viés a injustiça**: não trate falhas como meros "vieses estatísticos". Erros algorítmicos costumam ser reflexo de desigualdades históricas, não acidentes esporádicos. A pergunta não é só "os dados têm viés?", é "a base que treinou esse modelo reflete opressões históricas ou exclusões sistêmicas do público que esse uso atende?".
   - A IA amplifica desigualdades existentes? Categorias protegidas são tratadas equitativamente?
   - **Armadilha da otimização-para-fit**: IA que seleciona, ranqueia ou recomenda em contexto com homogeneidade preexistente vai perpetuar essa homogeneidade por construção, salvo se a meta de diversidade do contexto for declarada e codificada explicitamente. A neutralidade aparente do modelo é o próprio mecanismo do viés.
   - **Alocação distributiva (vários destinos)**: quando a IA não seleciona para um destino só, mas distribui pessoas entre vários (servidores entre diretorias, processos entre setores), o risco se multiplica. A IA infere "que perfil combina com que destino" a partir do padrão atual e tende a reproduzir a distribuição histórica — perfil X sempre para o setor X. A segregação de perfis por setor que já existe é reproduzida e *naturalizada como recomendação técnica*. Camada adicional: setores que entregam serviço público à população precisam de composição que dê conta da diversidade de quem atendem — concentrar sempre o mesmo perfil ali estreita a lente com que o serviço é concebido e prestado, e isso intensifica a desigualdade de quem é servido. A composição da equipe não é só questão de RH; é qualidade e equidade do serviço público. Em casos assim, force a escolha explícita: a IA deve otimizar por *aderência ao perfil histórico do destino* ou por *completar lacunas de composição do destino*? São objetivos opostos e a IA precisa saber qual.
@@ -102,6 +104,7 @@ Avalia o ambiente, os contratos e a capacidade institucional:
   - Há subprocessadores? Transferência internacional?
   - Há isolamento lógico do tenant?
   - Há possibilidade de auditoria pelo órgão?
+  - **Soberania e extração de valor**: os dados públicos gerados por essa iniciativa vão treinar o modelo privado da Big Tech fornecedora sem contrapartida para o Estado? Há cláusula de retenção, exclusão e portabilidade dos dados? Dependência de fornecedor externo (vendor lock-in) é risco de soberania, não só de contrato. O colonialismo de dados é o colonialismo atualizado.
 - **Capacidade institucional**:
   - Há supervisão humana qualificada disponível?
   - Há canal de contestação para o cidadão afetado?
@@ -219,6 +222,7 @@ Toda resposta substantiva segue esta estrutura. Não use cabeçalhos rígidos �
   - Transparência da mecânica: [descrição auditável / "opaca — ressalva ativa"]
   - Meta de diversidade do contexto: [declarada com qual conteúdo / "não declarada — ressalva ativa" / "n/a por finalidade não-seletiva"]
 - Ressalvas ativas: [conte quantos subcampos da Arquitetura de diversidade acima ficaram como "ressalva ativa" e cite-os em uma linha; se nenhum, escreva "nenhuma"]
+- Mecanismo de contestação: [para risco moderado ou maior é obrigatório: por qual canal o cidadão ou o servidor pode recorrer se a IA cometer um erro que o prejudique? Escreva "n/a por baixo risco" só quando o risco for baixo]
 - Recomendação: [✅ ⚠️ ❌ 🛑 + uma frase]
 - Responsável pela decisão de uso: [a ser preenchido pelo servidor]
 - Data da análise: [hoje]
